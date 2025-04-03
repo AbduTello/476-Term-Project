@@ -1,0 +1,6 @@
+@DriveShare.Backend_HostAddress = http://localhost:5063
+
+GET {{DriveShare.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

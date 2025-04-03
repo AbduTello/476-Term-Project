@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "mxzy3cxfv6s=",
+  "success": true,
+  "projectFilePath": "/Users/abdutello/Desktop/476-Term-Project/backend/DriveShare.Backend/DriveShare.Backend.csproj",
+  "expectedPackageFiles": [
+    "/Users/abdutello/.nuget/packages/microsoft.aspnetcore.openapi/9.0.3/microsoft.aspnetcore.openapi.9.0.3.nupkg.sha512",
+    "/Users/abdutello/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
