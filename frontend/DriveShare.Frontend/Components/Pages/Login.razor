@@ -8,7 +8,7 @@
 
 <h3>Login</h3>
 
-<EditForm Model="loginModel" OnValidSubmit="HandleLogin" @ref="loginForm">
+<EditForm Model="loginModel" OnValidSubmit="HandleLogin" @ref="loginForm" FormName="LoginForm">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -34,8 +34,20 @@
     {
         try
         {
+            var hardcodedLoginModel = new LoginModel
+            {
+                Email = "muzzu.muiz@gmail.com", // Hardcoded email
+                Password = "Test123$" // Hardcoded password
+            };
+            @* Console.WriteLine("going to send: " + loginModel.Email + " " + loginModel.Password); *@
             // Use ApiClient to call the login endpoint
-            var result = await ApiClient.PostAsync<LoginResponse>("/auth/login", loginModel);
+            var result = await ApiClient.PostAsync<LoginResponse>("/auth/login", hardcodedLoginModel);
+
+            Console.WriteLine("Login result:");
+            Console.WriteLine($" Token: {result?.Token?.Result}");
+            Console.WriteLine($" UserId: {result?.UserId}");
+            Console.WriteLine($" Email: {result?.Email}");
+
 
             if (result?.Token?.Result != null)
             {
@@ -43,8 +55,8 @@
                 SessionState.UserToken = result.Token.Result;
                 SessionState.UserId = result.UserId;
 
-                // Redirect to the home page
-                NavigationManager.NavigateTo("/home");
+                NavigationManager.NavigateTo("/");
+
             }
             else
             {
