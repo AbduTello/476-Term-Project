@@ -1,10 +1,16 @@
 using DriveShare.Frontend.Components;
+using DriveShare.Frontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<SessionStateService>();
+builder.Services.AddSingleton<ApiClientService>();
+
 
 var app = builder.Build();
 
