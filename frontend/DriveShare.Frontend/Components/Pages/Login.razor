@@ -1,7 +1,6 @@
 @page "/login"
-@inject HttpClient Http
-@inject SessionStateService SessionState
 @inject ApiClientService ApiClient
+@inject SessionStateService SessionState
 @inject NavigationManager NavigationManager
 @using System.Net.Http.Json
 @using Microsoft.AspNetCore.Components
@@ -26,12 +25,14 @@
 
 @code {
     private LoginModel loginModel = new LoginModel();
+    private bool loginSuccessful = false;
 
-    // Reference to the EditForm (optional but helps in some cases)
     private EditForm loginForm;
 
     private async Task HandleLogin()
     {
+        Console.WriteLine("Going to send: " + loginModel.Email + " " + loginModel.Password);
+
         try
         {
             var hardcodedLoginModel = new LoginModel
@@ -43,20 +44,16 @@
             // Use ApiClient to call the login endpoint
             var result = await ApiClient.PostAsync<LoginResponse>("/auth/login", hardcodedLoginModel);
 
-            Console.WriteLine("Login result:");
-            Console.WriteLine($" Token: {result?.Token?.Result}");
-            Console.WriteLine($" UserId: {result?.UserId}");
-            Console.WriteLine($" Email: {result?.Email}");
-
-
             if (result?.Token?.Result != null)
             {
                 // Store the token and user info in SessionState
                 SessionState.UserToken = result.Token.Result;
                 SessionState.UserId = result.UserId;
 
-                NavigationManager.NavigateTo("/");
+                // Mark login as successful to trigger navigation
+                loginSuccessful = true;
 
+                NavigationManager.NavigateTo("/");
             }
             else
             {
@@ -66,6 +63,11 @@
         }
         catch (Exception ex)
         {
+            if (ex is NavigationException)
+            {
+                throw ex;
+            }
+            // Log the exception for further debugging
             Console.WriteLine($"Error during login: {ex.Message}");
         }
     }
