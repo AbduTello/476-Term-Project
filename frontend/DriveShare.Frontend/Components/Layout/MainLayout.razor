@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
 
 <div class="page">
     <div class="sidebar">
@@ -7,7 +8,11 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <!-- Button for login page -->
+            <button class="btn btn-primary" @onclick="NavigateToLogin">Login</button>
+
+            <!-- Button for counter page -->
+            <button class="btn btn-secondary" @onclick="NavigateToCounter">Logout</button>
         </div>
 
         <article class="content px-4">
@@ -21,3 +26,21 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+
+    private async Task NavigateToLogin()
+    {
+        Console.WriteLine("Navigating to login page...");
+        // Navigate to the login page
+        Navigation.NavigateTo("/login");
+
+        await Task.CompletedTask;
+    }
+
+    private void NavigateToCounter()
+    {
+        // Navigate to the counter page
+        Navigation.NavigateTo("/counter");
+    }
+}
