@@ -1,0 +1,78 @@
+@page "/login"
+@inject HttpClient Http
+@inject SessionStateService SessionState
+@inject ApiClientService ApiClient
+@inject NavigationManager NavigationManager
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components
+
+<h3>Login</h3>
+
+<EditForm Model="loginModel" OnValidSubmit="HandleLogin" @ref="loginForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="loginModel.Email" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="loginModel.Password" type="password" />
+    </div>
+
+    <button type="submit">Login</button>
+</EditForm>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+
+    // Reference to the EditForm (optional but helps in some cases)
+    private EditForm loginForm;
+
+    private async Task HandleLogin()
+    {
+        try
+        {
+            // Use ApiClient to call the login endpoint
+            var result = await ApiClient.PostAsync<LoginResponse>("/auth/login", loginModel);
+
+            if (result?.Token?.Result != null)
+            {
+                // Store the token and user info in SessionState
+                SessionState.UserToken = result.Token.Result;
+                SessionState.UserId = result.UserId;
+
+                // Redirect to the home page
+                NavigationManager.NavigateTo("/home");
+            }
+            else
+            {
+                // Handle case where token is null
+                Console.WriteLine("Error: Token not found in response");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during login: {ex.Message}");
+        }
+    }
+
+    public class LoginModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class TokenResult
+    {
+        public string Result { get; set; }
+    }
+
+    public class LoginResponse
+    {
+        public TokenResult Token { get; set; }
+        public string UserId { get; set; }
+        public string Email { get; set; }
+    }
+}
