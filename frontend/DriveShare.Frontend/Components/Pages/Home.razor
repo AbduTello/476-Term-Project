@@ -1,7 +1,23 @@
 ﻿@page "/"
+@inject SessionStateService SessionState
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Hello, @GetGreeting()!</h1>
 
-Welcome to your new app.
+<p>Welcome to your new app.</p>
+
+@code {
+    private string GetGreeting()
+    {
+        // If the user is logged in, display their UserId
+        if (SessionState.IsUserLoggedIn())
+        {
+            return SessionState.UserId ?? "User";
+        }
+        else
+        {
+            return "world";
+        }
+    }
+}

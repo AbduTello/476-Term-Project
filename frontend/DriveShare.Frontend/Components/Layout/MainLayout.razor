@@ -9,10 +9,10 @@
     <main>
         <div class="top-row px-4">
             <!-- Button for login page -->
-            <button class="btn btn-primary" @onclick="NavigateToLogin">Login</button>
+            <a class="btn btn-primary" href="/login">Login</a>
 
             <!-- Button for counter page -->
-            <button class="btn btn-secondary" @onclick="NavigateToCounter">Logout</button>
+            <a class="btn btn-secondary" href="/logout">Logout</a>
         </div>
 
         <article class="content px-4">
@@ -26,21 +26,3 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
-
-@code {
-
-    private async Task NavigateToLogin()
-    {
-        Console.WriteLine("Navigating to login page...");
-        // Navigate to the login page
-        Navigation.NavigateTo("/login");
-
-        await Task.CompletedTask;
-    }
-
-    private void NavigateToCounter()
-    {
-        // Navigate to the counter page
-        Navigation.NavigateTo("/counter");
-    }
-}

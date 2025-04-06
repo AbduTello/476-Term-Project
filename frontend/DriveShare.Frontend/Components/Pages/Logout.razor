@@ -1,0 +1,19 @@
+@page "/logout"
+@inject SessionStateService SessionState
+@inject NavigationManager Navigation
+
+<PageTitle>Logging Out</PageTitle>
+
+<h3>Logging out...</h3>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Clear the session state
+        SessionState.UserToken = null;
+        SessionState.UserId = null;
+
+        // Redirect to the home page or login page
+        Navigation.NavigateTo("/login");
+    }
+}
