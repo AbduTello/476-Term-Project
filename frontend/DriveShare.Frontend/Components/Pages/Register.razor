@@ -1,0 +1,75 @@
+@page "/register"
+@using DriveShare.Frontend.Models
+@inject ApiClientService ApiClient
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<h3>Register</h3>
+
+<EditForm Model="registrationModel" OnValidSubmit="HandleRegistration" FormName="RegisterForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-3">
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="registrationModel.Email" class="form-control" />
+        <ValidationMessage For="@(() => registrationModel.Email)" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="registrationModel.Password" type="password" class="form-control" />
+        <ValidationMessage For="@(() => registrationModel.Password)" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="confirmPassword">Confirm Password:</label>
+        <InputText id="confirmPassword" @bind-Value="registrationModel.ConfirmPassword" type="password"
+            class="form-control" />
+        <ValidationMessage For="@(() => registrationModel.ConfirmPassword)" />
+    </div>
+
+    <div class="security-questions mt-4">
+        <h4>Security Questions</h4>
+
+        <div class="form-group mb-3">
+            <label for="question1">What is your mother's maiden name?</label>
+            <InputText id="question1" @bind-Value="registrationModel.SecurityQuestion1" class="form-control" />
+            <ValidationMessage For="@(() => registrationModel.SecurityQuestion1)" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="question2">What was the name of your first pet?</label>
+            <InputText id="question2" @bind-Value="registrationModel.SecurityQuestion2" class="form-control" />
+            <ValidationMessage For="@(() => registrationModel.SecurityQuestion2)" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="question3">In which city were you born?</label>
+            <InputText id="question3" @bind-Value="registrationModel.SecurityQuestion3" class="form-control" />
+            <ValidationMessage For="@(() => registrationModel.SecurityQuestion3)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</EditForm>
+
+@code {
+    private RegistrationModel registrationModel = new();
+
+    private async Task HandleRegistration()
+    {
+        try
+        {
+            var result = await ApiClient.PostAsync<RegistrationResponse>("/auth/register", registrationModel);
+            if (result?.Success == true)
+            {
+                NavigationManager.NavigateTo("/login");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during registration: {ex.Message}");
+        }
+    }
+}
