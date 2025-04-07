@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 @using System.Net.Http.Json
 @using Microsoft.AspNetCore.Components
+@rendermode InteractiveServer
 
 <h3>Login</h3>
 
@@ -35,14 +36,7 @@
 
         try
         {
-            var hardcodedLoginModel = new LoginModel
-            {
-                Email = "abdulta@umich.edu", // Hardcoded email
-                Password = "$123Abd" // Hardcoded password
-            };
-            @* Console.WriteLine("going to send: " + loginModel.Email + " " + loginModel.Password); *@
-            // Use ApiClient to call the login endpoint
-            var result = await ApiClient.PostAsync<LoginResponse>("/auth/login", hardcodedLoginModel);
+            var result = await ApiClient.PostAsync<LoginResponse>("/auth/login", loginModel);
 
             if (result?.Token?.Result != null)
             {
