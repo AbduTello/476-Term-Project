@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/abdulmuizkhan/Documents/UMDearborn/4thyearsem2/CIS 476/476-Term-Project/frontend/DriveShare.Frontend/DriveShare.Frontend.csproj",
+      "projectUniqueName": "/Users/abdulmuizkhan/Documents/UMDearborn/4thyearsem2/CIS 476/476-Term-Project/DriveShare.Frontend/DriveShare.Frontend.csproj",
       "projectName": "DriveShare.Frontend",
-      "projectPath": "/Users/abdulmuizkhan/Documents/UMDearborn/4thyearsem2/CIS 476/476-Term-Project/frontend/DriveShare.Frontend/DriveShare.Frontend.csproj",
+      "projectPath": "/Users/abdulmuizkhan/Documents/UMDearborn/4thyearsem2/CIS 476/476-Term-Project/DriveShare.Frontend/DriveShare.Frontend.csproj",
       "packagesPath": "/Users/abdulmuizkhan/.nuget/packages/",
-      "outputPath": "/Users/abdulmuizkhan/Documents/UMDearborn/4thyearsem2/CIS 476/476-Term-Project/frontend/DriveShare.Frontend/obj/",
+      "outputPath": "/Users/abdulmuizkhan/Documents/UMDearborn/4thyearsem2/CIS 476/476-Term-Project/DriveShare.Frontend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/abdulmuizkhan/.nuget/NuGet/NuGet.Config"

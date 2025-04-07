@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DriveShare.Frontend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc2579e1f3cdd8e4630aae0851ef93950a2d83c1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5ea9e6b4035aea7d2c432c25471378ccbb9263d")]
 [assembly: System.Reflection.AssemblyProductAttribute("DriveShare.Frontend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DriveShare.Frontend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
