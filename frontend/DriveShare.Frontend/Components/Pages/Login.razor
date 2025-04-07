@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 @using System.Net.Http.Json
 @using Microsoft.AspNetCore.Components
+@using DriveShare.Frontend.Models
 @rendermode InteractiveServer
 
 <h3>Login</h3>
@@ -64,23 +65,5 @@
             // Log the exception for further debugging
             Console.WriteLine($"Error during login: {ex.Message}");
         }
-    }
-
-    public class LoginModel
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
-
-    public class TokenResult
-    {
-        public string Result { get; set; }
-    }
-
-    public class LoginResponse
-    {
-        public TokenResult Token { get; set; }
-        public string UserId { get; set; }
-        public string Email { get; set; }
     }
 }
