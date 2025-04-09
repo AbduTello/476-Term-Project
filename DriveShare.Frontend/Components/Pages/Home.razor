@@ -1,6 +1,8 @@
 ﻿@page "/"
 @inject SessionStateService SessionState
 @inject ApiClientService ApiClient
+@rendermode InteractiveServer
+@using DriveShare.Frontend.Models
 
 <PageTitle>Home</PageTitle>
 
@@ -24,7 +26,7 @@
                         <p class="card-text">Price per day: $@car.PricePerDay</p>
                         <p class="card-text">Availability: @car.Availability</p>
                         <p class="card-text">Pick Up: @car.PickUpLocation</p>
-                        <button class="btn btn-primary" @onclick="() => BookCar(car.Id)">Book Now</button>
+                        <button class="btn btn-primary" @onclick="() => BookCar(car)">Book Now</button>
                     </div>
                 </div>
             </div>
@@ -48,10 +50,11 @@ else
         }
     }
 
-    private void BookCar(int carId)
+    private void BookCar(CarListing car)
     {
         // Handle the booking logic here (could be a redirect to a booking page)
-        Console.WriteLine($"Booking car with ID: {carId}");
+        Console.WriteLine($"Booking car with ID: {car.Id}");
+        Console.WriteLine($"Seller ID: {car.Seller.Id}");
     }
 
     private string GetGreeting()
@@ -65,23 +68,5 @@ else
         {
             return "world";
         }
-    }
-
-    public class CarListing
-    {
-        public int Id { get; set; }
-        public string Model { get; set; }
-        public int Year { get; set; }
-        public int Mileage { get; set; }
-        public string Location { get; set; }
-        public decimal PricePerDay { get; set; }
-        public string Availability { get; set; }
-        public string PickUpLocation { get; set; }
-        public Seller Seller { get; set; }
-    }
-
-    public class Seller
-    {
-        public string UserName { get; set; }
     }
 }
