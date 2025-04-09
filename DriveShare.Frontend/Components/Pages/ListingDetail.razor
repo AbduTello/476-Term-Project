@@ -1,0 +1,55 @@
+@page "/listings/{id:int}"
+
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@using DriveShare.Frontend.Models
+@using DriveShare.Frontend.Models.DTOs
+@inject SessionStateService SessionState
+@inject ApiClientService ApiClient
+@rendermode InteractiveServer
+
+<h3>Listing Details</h3>
+
+@if (listing != null)
+{
+    <div>
+        <h4>@listing.Model (@listing.Year)</h4> <!-- Corrected property names -->
+        <p><strong>Mileage:</strong> @listing.Mileage miles</p>
+        <p><strong>Location:</strong> @listing.Location</p>
+        <p><strong>Price Per Day:</strong> @listing.PricePerDay.ToString("C")</p>
+        <p><strong>Availability:</strong> @listing.Availability</p>
+        <p><strong>Pick-Up Location:</strong> @listing.PickUpLocation</p>
+
+        <h5>Status: @listing.Status</h5>
+
+        <h5>Seller Information</h5>
+        <p><strong>Seller Name:</strong> @listing.Seller?.Firstname</p> <!-- Correct property name -->
+        <p><strong>Seller Email:</strong> @listing.Seller?.Email</p> <!-- Correct property name -->
+
+        @if (listing.ReservedStartDate.HasValue && listing.ReservedEndDate.HasValue)
+        {
+            <p><strong>Reserved From:</strong> @listing.ReservedStartDate.Value.ToString("MM/dd/yyyy")</p>
+            <p><strong>Reserved To:</strong> @listing.ReservedEndDate.Value.ToString("MM/dd/yyyy")</p>
+        }
+        else
+        {
+            <p><strong>This car is currently available for booking.</strong></p>
+        }
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+
+    private CarListing listing;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch the car listing from the API using the id from the URL
+        listing = await ApiClient.GetAsync<CarListing>($"/listings/cars/{id}");
+    }
+}
