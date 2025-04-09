@@ -3,6 +3,7 @@
 @inject ApiClientService ApiClient
 @rendermode InteractiveServer
 @using DriveShare.Frontend.Models
+@using DriveShare.Frontend.Models.DTOs
 
 <PageTitle>Home</PageTitle>
 
@@ -50,11 +51,23 @@ else
         }
     }
 
-    private void BookCar(CarListing car)
+    private async void BookCar(CarListing car)
     {
         // Handle the booking logic here (could be a redirect to a booking page)
         Console.WriteLine($"Booking car with ID: {car.Id}");
         Console.WriteLine($"Seller ID: {car.Seller.Id}");
+
+        // create new booking request
+        var bookingRequest = new BookCarRequest
+        {
+            ListingId = car.Id,
+            OwnerId = car.Seller.Id,
+            StartDate = DateTime.Now,
+            EndDate = DateTime.Now.AddDays(7)
+        };
+
+        var result = await ApiClient.PostAsync<Booking>("/bookings/bookcar", bookingRequest);
+
     }
 
     private string GetGreeting()
