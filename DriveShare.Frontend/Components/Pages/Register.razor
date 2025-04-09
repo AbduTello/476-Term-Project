@@ -1,5 +1,6 @@
 @page "/register"
 @using DriveShare.Frontend.Models
+@using DriveShare.Frontend.Models.DTOs
 @inject ApiClientService ApiClient
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
@@ -9,6 +10,8 @@
 <EditForm Model="registrationModel" OnValidSubmit="HandleRegistration" FormName="RegisterForm">
     <DataAnnotationsValidator />
     <ValidationSummary />
+
+    <!-- Form Fields Here (same as before) -->
 
     <div class="form-group mb-3">
         <label for="email">Email:</label>
@@ -52,10 +55,18 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Register</button>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger mt-3">
+            @errorMessage
+        </div>
+    }
 </EditForm>
 
 @code {
     private RegistrationModel registrationModel = new();
+    private string errorMessage;
 
     private async Task HandleRegistration()
     {
@@ -66,10 +77,20 @@
             {
                 NavigationManager.NavigateTo("/login");
             }
+            else
+            {
+                // If the registration was unsuccessful, show errors returned from the backend
+                errorMessage = string.Join(", ", result?.Errors ?? new List<string>());
+            }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error during registration: {ex.Message}");
+            if (ex is NavigationException)
+            {
+                throw ex;
+            }
+            // If an error occurs, display a generic error message or the specific one from the exception
+            errorMessage = $"Error during registration: {ex.Message}";
         }
     }
 }
