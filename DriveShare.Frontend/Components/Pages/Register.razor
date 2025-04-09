@@ -10,6 +10,8 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
+    <!-- Form Fields Here (same as before) -->
+
     <div class="form-group mb-3">
         <label for="email">Email:</label>
         <InputText id="email" @bind-Value="registrationModel.Email" class="form-control" />
@@ -52,10 +54,18 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Register</button>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger mt-3">
+            @errorMessage
+        </div>
+    }
 </EditForm>
 
 @code {
     private RegistrationModel registrationModel = new();
+    private string errorMessage;
 
     private async Task HandleRegistration()
     {
@@ -66,10 +76,16 @@
             {
                 NavigationManager.NavigateTo("/login");
             }
+            else
+            {
+                // If the registration was unsuccessful, show errors returned from the backend
+                errorMessage = string.Join(", ", result?.Errors ?? new List<string>());
+            }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error during registration: {ex.Message}");
+            // If an error occurs, display a generic error message or the specific one from the exception
+            errorMessage = $"Error during registration: {ex.Message}";
         }
     }
 }
