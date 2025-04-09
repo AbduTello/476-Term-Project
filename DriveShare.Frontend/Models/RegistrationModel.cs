@@ -25,10 +25,4 @@ namespace DriveShare.Frontend.Models
         [Required(ErrorMessage = "Security question 3 is required")]
         public string SecurityQuestion3 { get; set; } = string.Empty;
     }
-
-    public class RegistrationResponse
-    {
-        public bool Success { get; set; }
-        public string Message { get; set; } = string.Empty;
-    }
 }

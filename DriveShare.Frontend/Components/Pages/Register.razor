@@ -1,5 +1,6 @@
 @page "/register"
 @using DriveShare.Frontend.Models
+@using DriveShare.Frontend.Models.DTOs
 @inject ApiClientService ApiClient
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
@@ -84,6 +85,10 @@
         }
         catch (Exception ex)
         {
+            if (ex is NavigationException)
+            {
+                throw ex;
+            }
             // If an error occurs, display a generic error message or the specific one from the exception
             errorMessage = $"Error during registration: {ex.Message}";
         }
