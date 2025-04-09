@@ -6,4 +6,61 @@
 @inject ApiClientService ApiClient
 @rendermode InteractiveServer
 
-<p>Welcome to your new app.</p>
+<h3>Create Car Listing</h3>
+
+<EditForm Model="createCarListingRequest" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Model:</label>
+        <InputText @bind-Value="createCarListingRequest.Model" />
+    </div>
+    <div>
+        <label>Year:</label>
+        <InputNumber @bind-Value="createCarListingRequest.Year" />
+    </div>
+    <div>
+        <label>Mileage:</label>
+        <InputNumber @bind-Value="createCarListingRequest.Mileage" />
+    </div>
+    <div>
+        <label>Location:</label>
+        <InputText @bind-Value="createCarListingRequest.Location" />
+    </div>
+    <div>
+        <label>Price Per Day:</label>
+        <InputNumber @bind-Value="createCarListingRequest.PricePerDay" />
+    </div>
+    <div>
+        <label>Availability:</label>
+        <InputSelect @bind-Value="createCarListingRequest.Availability">
+            <option value="Available">Available</option>
+            <option value="Booked">Booked</option>
+            <option value="Unavailable">Unavailable</option>
+        </InputSelect>
+    </div>
+    <div>
+        <label>Pick Up Location:</label>
+        <InputText @bind-Value="createCarListingRequest.PickUpLocation" />
+    </div>
+
+    <button type="submit">Create Listing</button>
+</EditForm>
+
+@code {
+    private CreateCarListingRequest createCarListingRequest = new CreateCarListingRequest();
+
+    private async Task HandleValidSubmit()
+    {
+        var response = await ApiClient.PostAsync<HttpResponseMessage>("/listings/new", createCarListingRequest);
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Car listing created successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Failed to create car listing.");
+        }
+    }
+}
