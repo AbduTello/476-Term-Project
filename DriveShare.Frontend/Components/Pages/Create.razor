@@ -53,14 +53,19 @@
 
     private async Task HandleValidSubmit()
     {
-        var response = await ApiClient.PostAsync<HttpResponseMessage>("/listings/new", createCarListingRequest);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            Console.WriteLine("Car listing created successfully.");
+            var response = await ApiClient.PostAsync<CarListing>("/listings/new", createCarListingRequest);
+            if (response != null)
+            {
+                // Handle successful creation of car listing
+                Console.WriteLine("Car listing created successfully!");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine("Failed to create car listing.");
+            // Handle error
+            Console.WriteLine($"Error creating car listing: {ex.Message}");
         }
     }
 }
