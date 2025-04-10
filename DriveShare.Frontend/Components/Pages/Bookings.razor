@@ -17,6 +17,7 @@
                     <img src="https://via.placeholder.com/150" class="card-img-top" alt="Car image" />
                     <div class="card-body">
                         <h5 class="card-title">@booking.Car.Model</h5>
+                         <p class="card-text">ID: @booking.Id</p>
                         <p class="card-text">Year: @booking.Car.Year</p>
                         <p class="card-text">Mileage: @booking.Car.Mileage</p>
                         <p class="card-text">Location: @booking.Car.Location</p>
@@ -27,8 +28,8 @@
                         <p class="card-text">End Date: @booking.EndDate.ToString("MMMM dd, yyyy")</p>
                         <p class="card-text">Total Price: $@booking.TotalPrice</p>
                         <p class="card-text">Status: @booking.Status</p>
-                        <p class="card-text">Renter: @booking.Renter.Firstname</p>
-                        <p class="card-text">Owner: @booking.Owner.Firstname</p>
+                        <p class="card-text">Renter: @booking.Renter.Email</p>
+                        <p class="card-text">Owner: @booking.Owner.Email</p>
                         @* <button class="btn btn-primary" @onclick="() => ViewBookingDetails(booking.Id)">View Details</button> *@
                     </div>
                 </div>
