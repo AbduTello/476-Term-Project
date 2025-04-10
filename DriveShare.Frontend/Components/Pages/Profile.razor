@@ -55,7 +55,12 @@ else
                 user = await ApiClient.GetAsync<BNUser>($"/users/{userId}");
 
                 // Fetch user balance
-                balance = await ApiClient.GetAsync<decimal>($"/users/balance");
+                var result = await ApiClient.GetAsync<BalanceResponse>($"/users/balance");
+
+                if (result != null)
+                {
+                    balance = result.Balance;
+                }
             }
             catch (Exception ex)
             {
