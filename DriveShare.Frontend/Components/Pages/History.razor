@@ -1,0 +1,58 @@
+@page "/history"
+@inject ApiClientService ApiClient
+@using DriveShare.Frontend.Models
+@using DriveShare.Frontend.Models.DTOs
+@rendermode InteractiveServer
+
+<h3>Booking History</h3>
+
+@if (bookings == null)
+{
+    <p>Loading...</p>
+}
+else if (bookings.Count == 0)
+{
+    <p>No completed or canceled bookings found.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var booking in bookings)
+        {
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="Car image" />
+                    <div class="card-body">
+                        <h5 class="card-title">@booking.Car.Model</h5>
+                        <p class="card-text">ID: @booking.Id</p>
+                        <p class="card-text">Year: @booking.Car.Year</p>
+                        <p class="card-text">Mileage: @booking.Car.Mileage</p>
+                        <p class="card-text">Location: @booking.Car.Location</p>
+                        <p class="card-text">Price per day: $@booking.Car.PricePerDay</p>
+                        <p class="card-text">Start Date: @booking.StartDate.ToString("MMMM dd, yyyy")</p>
+                        <p class="card-text">End Date: @booking.EndDate.ToString("MMMM dd, yyyy")</p>
+                        <p class="card-text">Total Price: $@booking.TotalPrice</p>
+                        <p class="card-text">Status: @booking.Status</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<Booking> bookings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            bookings = await ApiClient.GetAsync<List<Booking>>("/bookings/history");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching booking history: {ex.Message}");
+            bookings = new List<Booking>();
+        }
+    }
+}
