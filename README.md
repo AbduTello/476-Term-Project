@@ -26,3 +26,5 @@ open in Visual studio and hit play, or if on mac:
 [in same directory as program.cs]: dotnet build && dotnet run
 
 ^^^ THESE directions also apply to the backend repo, since it is also dotnet
+
+This app uses a Postgres Database, hosted by Supabase.
