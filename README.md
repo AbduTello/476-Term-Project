@@ -1,6 +1,10 @@
 # 476-Term-Project
 Design and implement DriveShare - Peer-to-Peer Car Rental Platform.
 
+*** Authors: Abdul Khan, Abdu Tello, Ismaeel Shajrah***
+
+Using BlazorUI for frontend, ASP NET CORE with Entity Framework Core integration for code first database management and authorization!
+
 BACKEND REPO: https://github.com/khanabdu25/borrow-nest
 
 Demo folder:
