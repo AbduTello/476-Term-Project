@@ -35,7 +35,48 @@
         {
             <p><strong>This car is currently available for booking.</strong></p>
         }
+
+        <button class="btn btn-secondary" @onclick="() => ShowEditForm = true">Edit Listing</button>
     </div>
+
+    @if (ShowEditForm)
+    {
+        <EditForm Model="editCarListingRequest" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div>
+                <label>Model:</label>
+                <InputText @bind-Value="editCarListingRequest.Model" />
+            </div>
+            <div>
+                <label>Year:</label>
+                <InputNumber @bind-Value="editCarListingRequest.Year" />
+            </div>
+            <div>
+                <label>Mileage:</label>
+                <InputNumber @bind-Value="editCarListingRequest.Mileage" />
+            </div>
+            <div>
+                <label>Location:</label>
+                <InputText @bind-Value="editCarListingRequest.Location" />
+            </div>
+            <div>
+                <label>Price Per Day:</label>
+                <InputNumber @bind-Value="editCarListingRequest.PricePerDay" />
+            </div>
+            <div>
+                <label>Availability:</label>
+                <InputText @bind-Value="editCarListingRequest.Availability" />
+            </div>
+            <div>
+                <label>Pick Up Location:</label>
+                <InputText @bind-Value="editCarListingRequest.PickUpLocation" />
+            </div>
+
+            <button type="submit">Update Listing</button>
+        </EditForm>
+    }
 }
 else
 {
@@ -46,10 +87,41 @@ else
     [Parameter] public int id { get; set; }
 
     private CarListing listing;
+    private CreateCarListingRequest editCarListingRequest = new CreateCarListingRequest();
+    private bool ShowEditForm = false;
 
     protected override async Task OnInitializedAsync()
     {
         // Fetch the car listing from the API using the id from the URL
         listing = await ApiClient.GetAsync<CarListing>($"/listings/cars/{id}");
+        if (listing != null)
+        {
+            // Initialize the edit form with existing listing details
+            editCarListingRequest = new CreateCarListingRequest
+            {
+                Model = listing.Model,
+                Year = listing.Year,
+                Mileage = listing.Mileage,
+                Location = listing.Location,
+                PricePerDay = listing.PricePerDay,
+                Availability = listing.Availability,
+                PickUpLocation = listing.PickUpLocation
+            };
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var response = await ApiClient.PutAsync<HttpResponseMessage>($"/listings/update/{listing.Id}", editCarListingRequest);
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Car listing updated successfully.");
+            ShowEditForm = false;
+            // Optionally, refresh the listing details
+        }
+        else
+        {
+            Console.WriteLine("Failed to update car listing.");
+        }
     }
 }

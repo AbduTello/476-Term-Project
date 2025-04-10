@@ -42,5 +42,13 @@ namespace DriveShare.Frontend.Services
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<T>();
         }
+
+        public async Task<T> PutAsync<T>(string route, object data)
+        {
+            SetAuthorizationHeader(); // Set the Bearer token header
+            var response = await _httpClient.PutAsJsonAsync(_baseUrl + route, data);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<T>();
+        }
     }
 }
