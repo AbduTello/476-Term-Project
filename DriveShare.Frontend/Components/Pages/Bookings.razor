@@ -32,6 +32,7 @@
                         <p class="card-text">Renter: @booking.Renter.Email</p>
                         <p class="card-text">Owner: @booking.Owner.Email</p>
                         <button class="btn btn-primary" @onclick="() => InitiateBooking(booking)">Initiate Booking</button>
+                        <button class="btn btn-secondary" @onclick="() => ReturnRental(booking)">Return Rental</button>
                     </div>
                 </div>
             </div>
@@ -66,17 +67,45 @@ else
     private async Task InitiateBooking(Booking booking)
     {
         // Logic to initiate booking
-        // This could involve navigating to a booking details page or showing a modal
         Console.WriteLine($"Initiating booking for car: {booking.Car.Model}");
-        // make post call to /bookings/initiate
+
         var paymentReq = new PaymentRequest
         {
             Amount = booking.TotalPrice,
             BookingId = booking.Id,
         };
+
         var response = await ApiClient.PostAsync<HttpResponseMessage>("/bookings/initiate", paymentReq);
-        await Task.CompletedTask;
+
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Booking initiated successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Error initiating booking.");
+        }
     }
 
+    private async Task ReturnRental(Booking booking)
+    {
+        // Logic to return rental
+        Console.WriteLine($"Returning rental for booking ID: {booking.Id}");
 
+        var returnRequest = new ReturnCarRequest
+        {
+            BookingId = booking.Id
+        };
+
+        var response = await ApiClient.PostAsync<HttpResponseMessage>("/bookings/returncar", returnRequest);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Rental returned successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Error returning rental.");
+        }
+    }
 }
