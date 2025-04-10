@@ -8,6 +8,8 @@
 @rendermode InteractiveServer
 
 <h3>Login</h3>
+<br />
+<br />
 
 <EditForm Model="loginModel" OnValidSubmit="HandleLogin" @ref="loginForm" FormName="LoginForm">
     <DataAnnotationsValidator />
@@ -21,8 +23,12 @@
         <label for="password">Password:</label>
         <InputText id="password" @bind-Value="loginModel.Password" type="password" />
     </div>
-
+    <br />
+    <br />
     <button type="submit">Login</button>
+    <br />
+    <br />
+    <button type="submit">Forgot Password?</button>
 </EditForm>
 
 @code {
