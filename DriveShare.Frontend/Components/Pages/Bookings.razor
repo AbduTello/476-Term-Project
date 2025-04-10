@@ -1,5 +1,6 @@
 @page "/bookings"
 @inject SessionStateService SessionState
+@inject HttpClient Http
 @inject ApiClientService ApiClient
 @rendermode InteractiveServer
 @using DriveShare.Frontend.Models
@@ -17,7 +18,7 @@
                     <img src="https://via.placeholder.com/150" class="card-img-top" alt="Car image" />
                     <div class="card-body">
                         <h5 class="card-title">@booking.Car.Model</h5>
-                         <p class="card-text">ID: @booking.Id</p>
+                        <p class="card-text">ID: @booking.Id</p>
                         <p class="card-text">Year: @booking.Car.Year</p>
                         <p class="card-text">Mileage: @booking.Car.Mileage</p>
                         <p class="card-text">Location: @booking.Car.Location</p>
@@ -30,7 +31,7 @@
                         <p class="card-text">Status: @booking.Status</p>
                         <p class="card-text">Renter: @booking.Renter.Email</p>
                         <p class="card-text">Owner: @booking.Owner.Email</p>
-                        @* <button class="btn btn-primary" @onclick="() => ViewBookingDetails(booking.Id)">View Details</button> *@
+                        <button class="btn btn-primary" @onclick="() => InitiateBooking(booking)">Initiate Booking</button>
                     </div>
                 </div>
             </div>
@@ -62,35 +63,20 @@ else
         }
     }
 
-    private async void BookCar(CarListing car)
+    private async Task InitiateBooking(Booking booking)
     {
-        // Handle the booking logic here (could be a redirect to a booking page)
-        Console.WriteLine($"Booking car with ID: {car.Id}");
-        Console.WriteLine($"Seller ID: {car.Seller.Id}");
-
-        // create new booking request
-        var bookingRequest = new BookCarRequest
+        // Logic to initiate booking
+        // This could involve navigating to a booking details page or showing a modal
+        Console.WriteLine($"Initiating booking for car: {booking.Car.Model}");
+        // make post call to /bookings/initiate
+        var paymentReq = new PaymentRequest
         {
-            ListingId = car.Id,
-            OwnerId = car.Seller.Id,
-            StartDate = DateTime.Now,
-            EndDate = DateTime.Now.AddDays(7)
+            Amount = booking.TotalPrice,
+            BookingId = booking.Id,
         };
-
-        var result = await ApiClient.PostAsync<Booking>("/bookings/bookcar", bookingRequest);
-
+        var response = await ApiClient.PostAsync<HttpResponseMessage>("/bookings/initiate", paymentReq);
+        await Task.CompletedTask;
     }
 
-    private string GetGreeting()
-    {
-        // If the user is logged in, display their UserId
-        if (SessionState.IsUserLoggedIn())
-        {
-            return SessionState.UserId ?? "User";
-        }
-        else
-        {
-            return "world";
-        }
-    }
+
 }
