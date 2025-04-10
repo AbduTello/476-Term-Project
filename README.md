@@ -7,9 +7,9 @@ Using BlazorUI for frontend, ASP NET CORE with Entity Framework Core integration
 
 BACKEND REPO: https://github.com/khanabdu25/borrow-nest
 
-Demo folder:
+Demo video:
 
-https://drive.google.com/drive/folders/1FEPcGt-x0R6Pzux0sfQBsNePGUErVpzS?usp=sharing
+https://www.youtube.com/watch?v=oSFeIh6C92E
 
 Documentation:
 
