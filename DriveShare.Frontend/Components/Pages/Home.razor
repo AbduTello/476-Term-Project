@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject SessionStateService SessionState
 @inject ApiClientService ApiClient
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 @using DriveShare.Frontend.Models
 @using DriveShare.Frontend.Models.DTOs
@@ -28,6 +29,7 @@
                         <p class="card-text">Availability: @car.Availability</p>
                         <p class="card-text">Pick Up: @car.PickUpLocation</p>
                         <button class="btn btn-primary" @onclick="() => BookCar(car)">Book Now</button>
+                        <button class="btn btn-secondary" @onclick="() => ViewDetails(car.Id)">View Details</button>
                     </div>
                 </div>
             </div>
@@ -67,7 +69,12 @@ else
         };
 
         var result = await ApiClient.PostAsync<Booking>("/bookings/bookcar", bookingRequest);
+    }
 
+    private void ViewDetails(int carId)
+    {
+        // Navigate to the ListingDetail page with the car ID
+        NavigationManager.NavigateTo($"/listings/{carId}");
     }
 
     private string GetGreeting()
